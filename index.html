@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="夫婦の家計を月次・週次・年次で見渡せる家計管理アプリ">
+  <title>暮らしノート — 家計管理</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="暮らしノート ホーム">
+        <span class="brand-mark">く</span><span>暮らしノート</span>
+      </a>
+      <nav class="main-nav" aria-label="メインメニュー">
+        <button class="nav-item active" data-view="dashboard"><span class="icon">⌂</span>ホーム</button>
+        <button class="nav-item" data-view="transactions"><span class="icon">↕</span>明細</button>
+        <button class="nav-item" data-view="analytics"><span class="icon">⌁</span>年間レポート</button>
+        <button class="nav-item" data-view="settings"><span class="icon">⚙</span>予算・固定費</button>
+      </nav>
+      <div class="sidebar-foot">
+        <div class="couple-avatars"><span>晴</span><span>葵</span></div>
+        <div><strong>晴人 ＆ 葵</strong><small>ふたりの家計</small></div>
+        <button aria-label="アカウントメニュー">•••</button>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <button class="mobile-menu" aria-label="メニューを開く">☰</button>
+        <div><p class="eyebrow">OUR HOUSEHOLD</p><h1>こんにちは、晴人さん</h1></div>
+        <div class="header-actions">
+          <button class="icon-button" aria-label="通知"><span>♢</span><i></i></button>
+          <button class="primary-button" id="openTransaction"><span>＋</span> 支出を記録</button>
+        </div>
+      </header>
+
+      <section class="dashboard" id="dashboardView">
+        <div class="month-row">
+          <button class="month-arrow" id="prevMonth" aria-label="前の月">‹</button>
+          <div><p>家計サマリー</p><h2 id="monthLabel">2026年 8月</h2></div>
+          <button class="month-arrow" id="nextMonth" aria-label="次の月">›</button>
+          <button class="outline-button">今月に戻る</button>
+        </div>
+
+        <div class="summary-grid">
+          <article class="balance-card">
+            <div class="card-head"><span class="status-dot"></span><span>今月あと使える金額</span><button aria-label="詳細">•••</button></div>
+            <div class="balance"><small>¥</small><strong id="remainingAmount">83,420</strong></div>
+            <div class="progress-meta"><span>変動費予算 ¥180,000</span><b>46% 残り</b></div>
+            <div class="progress"><span id="budgetProgress"></span></div>
+            <div class="balance-foot">
+              <div><span>今月の支出</span><strong>¥96,580</strong></div>
+              <div><span>1日あたり目安</span><strong>¥5,960</strong></div>
+              <div><span>給料日まで</span><strong>あと 14日</strong></div>
+            </div>
+          </article>
+
+          <article class="snapshot-card">
+            <div class="card-head"><span>今月の収支</span><button aria-label="詳細">•••</button></div>
+            <div class="snapshot-row income"><span class="round-icon">↘</span><div><span>ふたりの収入</span><strong>¥620,000</strong></div><small>＋2.4%</small></div>
+            <div class="snapshot-row"><span class="round-icon">⌂</span><div><span>固定費</span><strong>− ¥343,420</strong></div><small>55.4%</small></div>
+            <div class="snapshot-row"><span class="round-icon">↗</span><div><span>変動費</span><strong>− ¥96,580</strong></div><small>15.6%</small></div>
+            <div class="net-row"><span>今月の収支見込み</span><strong>＋ ¥180,000</strong></div>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <article class="panel weekly-panel">
+            <div class="panel-head"><div><p class="eyebrow">WEEKLY CHECK</p><h3>週ごとの使い方</h3></div><span class="soft-badge">順調です</span></div>
+            <div class="week-chart" id="weekChart"></div>
+            <div class="insight"><span>◎</span><p><strong>先週より ¥3,240 少なく使えています</strong><br>今のペースなら、月末に約 ¥12,000 残せそうです。</p></div>
+          </article>
+
+          <article class="panel category-panel">
+            <div class="panel-head"><div><p class="eyebrow">CATEGORIES</p><h3>カテゴリー別</h3></div><button class="text-button">すべて見る →</button></div>
+            <div class="category-list" id="categoryList"></div>
+          </article>
+        </div>
+
+        <article class="panel annual-panel">
+          <div class="panel-head"><div><p class="eyebrow">YEARLY OVERVIEW</p><h3>年間の収支</h3></div><div class="legend"><span><i class="income-key"></i>収入</span><span><i class="expense-key"></i>支出</span><select aria-label="表示年"><option>2026年</option><option>2025年</option></select></div></div>
+          <div class="annual-body">
+            <div class="year-stats"><span>年間収支</span><strong>＋ ¥1,284,600</strong><small>昨年比 <b>＋8.2%</b></small></div>
+            <div class="chart-wrap"><canvas id="annualChart" aria-label="2026年の月別収支グラフ"></canvas></div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="transactionDialog">
+    <form method="dialog" id="transactionForm">
+      <div class="dialog-head"><div><p class="eyebrow">NEW EXPENSE</p><h2>支出を記録</h2></div><button value="cancel" aria-label="閉じる">×</button></div>
+      <label>金額<div class="amount-input"><span>¥</span><input name="amount" type="number" min="1" placeholder="0" required autofocus></div></label>
+      <div class="form-row"><label>カテゴリー<select name="category"><option>スーパー・食費</option><option>外食</option><option>Amazon</option><option>交際費</option><option>サブスク</option></select></label><label>日付<input name="date" type="date" value="2026-08-17" required></label></div>
+      <label>メモ<input name="memo" type="text" placeholder="例：週末のまとめ買い"></label>
+      <div class="dialog-actions"><button value="cancel" class="outline-button">キャンセル</button><button value="default" class="primary-button" id="saveTransaction">記録する</button></div>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status">✓ 支出を記録しました</div>
+  <script src="script.js"></script>
+</body>
+</html>
